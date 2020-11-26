@@ -9,3 +9,12 @@ export const patterns = {
 export const backupScripts = {
     blacklisted: []
 }
+
+export const features = {
+    iframe: window.YETT_IFRAME
+}
+
+// Backup list containing the original blacklisted iframe elements
+export const backupIframes = {
+    blacklisted: []
+}

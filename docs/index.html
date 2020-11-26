@@ -9,8 +9,10 @@
     <script>
         YETT_BLACKLIST = [
             /inline\.js$/,
-            /dynamic\.js$/
-        ]
+            /dynamic\.js$/,
+            /youtube/,
+            /vimeo/,
+        ];
     </script>
     <script src="./lib/yett.min.js"></script>
     <script src="inline.js" type="javascript/blocked"></script>
@@ -53,6 +55,12 @@
                 <button onclick="yett.unblock('dynamic.js')">
                     Unblock the dynamic script
                 </button>
+                <button onclick="yett.unblock('youtube')">
+                    Unblock the youtube iframe
+                </button>
+                <button onclick="yett.unblock('vimeo')">
+                    Unblock the vimeo iframe
+                </button>
                 <button onclick='yett.unblock()'>
                     Unblock all scripts
                 </button>
@@ -60,11 +68,13 @@
             </div>
             <p id="content">
             </p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/xdEFVYlMMW0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <p class="footnote">
                 <a href="https://github.com/snipsco/yett/blob/master/docs/index.html" target="_blank">
                     Check out the code.
                 </a>
             </p>
+            <iframe loading="lazy" name="il mio iframe" referrerpolicy sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation" style="border-color: 2px solid red;" allowpaymentrequest allow class="MyClass MyClass--Modify" id="MyId MyId--Modify" src="https://player.vimeo.com/video/130486387" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
         </section>
     </main>
 
