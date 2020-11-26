@@ -1,6 +1,7 @@
 import {
     patterns,
     backupScripts,
+    backupIframes,
     TYPE_ATTRIBUTE
 } from './variables'
 
@@ -81,6 +82,32 @@ export const unblock = function(...scriptUrlsOrRegexes) {
             indexOffset++
         }
     })
+
+    let iframeIndexOffset = 0;
+    [...backupIframes.blacklisted].forEach(([id, frame], index) => {
+        let attributes = [...frame.attributes];
+        let placeholder = document.querySelector(`span[data-yett-id=${id}]`);
+        let newIframe = document.createElement('iframe');
+        console.log(attributes);
+        attributes.forEach( attr => {
+            if(attr.name.startsWith('data-') || attr.name.startsWith('allow')) {
+                newIframe.setAttribute(attr.name, attr.value)
+            } else if (attr.name.startsWith('class')) {
+                attr.value.split(" ").forEach( myClass => {
+                    newIframe.classList.add(myClass);
+                });;
+            } else if (attr.name.startsWith('allow')) {
+
+            } else {
+                newIframe[attr.name] = attr.value;
+            }
+        });
+
+        placeholder.parentElement.insertBefore(newIframe, placeholder);
+        placeholder.parentElement.removeChild(placeholder);
+        backupIframes.blacklisted.splice(index - iframeIndexOffset, 1)
+        iframeIndexOffset++
+    });
 
     // Disconnect the observer if the blacklist is empty for performance reasons
     if(patterns.blacklist && patterns.blacklist.length < 1) {

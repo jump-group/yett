@@ -1,8 +1,9 @@
-import { backupScripts, TYPE_ATTRIBUTE } from './variables'
+import { backupScripts, backupIframes, TYPE_ATTRIBUTE } from './variables'
 import { isOnBlacklist } from './checks'
 
 // Setup a mutation observer to track DOM insertion
 export const observer = new MutationObserver(mutations => {
+    console.log(backupIframes);
     for (let i = 0; i < mutations.length; i++) {
         const { addedNodes } = mutations[i];
         for(let i = 0; i < addedNodes.length; i++) {
@@ -29,6 +30,23 @@ export const observer = new MutationObserver(mutations => {
                     node.addEventListener('beforescriptexecute', beforeScriptExecuteListener)
 
                     // Remove the node from the DOM
+                    node.parentElement && node.parentElement.removeChild(node)
+                }
+            }
+            if(node.nodeType === 1 && node.tagName === 'IFRAME') {
+                const src = node.src;
+                
+                // Controllo che l'src del mio nodo iFrame sia nella blacklist
+                if(isOnBlacklist(src)) {
+                    let id = `yett_iframe_id_${Math.floor(Math.random() * 1000) + 1}`;
+                    
+                    // Faccio un backup del nodo
+                    backupIframes.blacklisted.push([id, node]);
+
+                    // Rimuovo il nodo
+                    let newPlaceholder = document.createElement('span');
+                    newPlaceholder.setAttribute('data-yett-id', id);
+                    node.parentElement.insertBefore(newPlaceholder, node)
                     node.parentElement && node.parentElement.removeChild(node)
                 }
             }

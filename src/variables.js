@@ -9,3 +9,8 @@ export const patterns = {
 export const backupScripts = {
     blacklisted: []
 }
+
+// Backup list containing the original blacklisted iframe elements
+export const backupIframes = {
+    blacklisted: []
+}
