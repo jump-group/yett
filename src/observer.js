@@ -1,4 +1,4 @@
-import { backupScripts, backupIframes, TYPE_ATTRIBUTE } from './variables'
+import { backupScripts, backupIframes, TYPE_ATTRIBUTE, features } from './variables'
 import { isOnBlacklist } from './checks'
 
 // Setup a mutation observer to track DOM insertion
@@ -33,7 +33,7 @@ export const observer = new MutationObserver(mutations => {
                     node.parentElement && node.parentElement.removeChild(node)
                 }
             }
-            if(node.nodeType === 1 && node.tagName === 'IFRAME') {
+            if(node.nodeType === 1 && node.tagName === 'IFRAME' && features.iframe !== false) {
                 const src = node.src;
                 
                 // Controllo che l'src del mio nodo iFrame sia nella blacklist
